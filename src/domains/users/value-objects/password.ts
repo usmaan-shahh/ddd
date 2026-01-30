@@ -20,6 +20,10 @@ export class Password {
     return new Password(hashedPassword);
   }
 
+  static fromHash(hash: string): Password {
+    return new Password(hash);
+  }
+
   equals(other: Password): boolean {
     return this.value === other.value;
   }

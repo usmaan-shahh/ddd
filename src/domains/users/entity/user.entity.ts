@@ -3,31 +3,40 @@ import { Email } from '../value-objects/email';
 import { Password } from '../value-objects/password';
 import { UserId } from '../value-objects/user-id';
 
+
+interface CreateUserProps {
+  id?: UserId;
+  email: Email;
+  password: Password;
+  isVerified?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
  export class User {
+
 
    /*------Private Constructor------*/
    private constructor(
-     private readonly id: UserId,
-     private email: Email,
-     private password: Password,
-     private isDeleted: boolean,
-     private readonly createdAt: Date,
-     private updatedAt: Date,
-   ) {}
+    private readonly id: UserId,
+    private email: Email,
+    private password: Password,
+    private isVerified: boolean,
+    private createdAt: Date,
+    private updatedAt: Date,
+  ) {}
 
    /*------Factory Method:------*/
    /*CREATE NEW USER*/
-   static create(props: {
-    email: string;
-    password: string;
-  }): User {
-  
-    const email = Email.create(props.email);
-    const password = Password.create(props.password);
-  
-    return new User(UserId.create(), email, password, false, new Date(), new Date());
+   static create(props: CreateUserProps): User {
+    return new User(
+      props.id ?? UserId.create(),
+      props.email,
+      props.password,
+      props.isVerified ?? false,
+      props.createdAt ?? new Date(),
+      props.updatedAt ?? new Date(),
+    );
   }
-
    //UTILITY METHOD TO UPDATE TIMESTAMP
    private touch(): void {
      this.updatedAt = new Date();

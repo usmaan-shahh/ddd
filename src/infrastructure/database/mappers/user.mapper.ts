@@ -1,13 +1,15 @@
-  import { User } from '../../../domains/users/entity/user.entity';
-  import { Email } from '../../../domains/users/value-objects/email';
-  import { Password } from '../../../domains/users/value-objects/password';
+import { UserId } from 'src/domains/users/value-objects/user-id';
+import { User } from '../../../domains/users/entity/user.entity';
+import { Email } from '../../../domains/users/value-objects/email';
+import { Password } from '../../../domains/users/value-objects/password';
 import { UserOrmEntity } from '../typeorm/entities/user.orm-entity';
 
 export class UserMapper {
   static toDomain(entity: UserOrmEntity): User {
     return User.create({
-      email: entity.email,
-      password: entity.passwordHash,
+      id: UserId.from(entity.id),
+      email: Email.create(entity.email),
+      password: Password.fromHash(entity.passwordHash),
     });
   }
 
@@ -20,4 +22,5 @@ export class UserMapper {
 
     return orm;
   }
+  
 }
