@@ -48,9 +48,10 @@ interface CreateUserProps {
      this.password = password;
      this.touch();
    }
+   
    // DELETE ACCOUNT
    delete(): void {
-     this.isDeleted = true;
+     this.isVerified = false;
      this.touch();
    }
    getId(): string {
@@ -62,8 +63,8 @@ interface CreateUserProps {
    getPassword(): string {
      return this.password.value;
    }
-   isAccountDeleted(): boolean {
-     return this.isDeleted;
+   isAccountVerified(): boolean {
+     return this.isVerified;
    }
    getCreatedAt(): Date {
      return this.createdAt;
