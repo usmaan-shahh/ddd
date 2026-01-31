@@ -8,7 +8,7 @@ export class UserOrmEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ name: 'password_hash', default: '' })
+  @Column({ name: 'password_hash' })
   passwordHash: string;
 
   @Column({ default: true })

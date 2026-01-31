@@ -1,7 +1,4 @@
-//Importing Value Objects.
-import { Email } from '../value-objects/email';
-import { Password } from '../value-objects/password';
-import { UserId } from '../value-objects/user-id';
+import { Email, Password, UserId } from '../value-objects';
 
 
 interface CreateUserProps {

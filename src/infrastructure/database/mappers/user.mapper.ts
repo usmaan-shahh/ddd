@@ -1,7 +1,5 @@
-import { UserId } from 'src/domains/users/value-objects/user-id';
 import { User } from '../../../domains/users/entity/user.entity';
-import { Email } from '../../../domains/users/value-objects/email';
-import { Password } from '../../../domains/users/value-objects/password';
+import { Email, Password, UserId } from '../../../domains/users/value-objects';
 import { UserOrmEntity } from '../typeorm/entities/user.orm-entity';
 
 export class UserMapper {
