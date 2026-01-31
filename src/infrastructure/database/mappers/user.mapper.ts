@@ -18,7 +18,7 @@ export class UserMapper {
 
     orm.id = user.getId();
     orm.email = user.getEmail();
-    orm.passwordHash = user.getPassword();
+    orm.passwordHash = user.getPasswordHash();
 
     return orm;
   }

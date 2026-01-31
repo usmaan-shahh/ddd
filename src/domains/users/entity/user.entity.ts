@@ -60,9 +60,9 @@ interface CreateUserProps {
    getEmail(): string {
      return this.email.value;
    }
-   getPassword(): string {
-     return this.password.value;
-   }
+   getPasswordHash(): string {
+    return this.password.value;
+  }
    isAccountVerified(): boolean {
      return this.isVerified;
    }

@@ -1,12 +1,16 @@
-import { UserRepository } from '../../../domains/users/repository/user.repository';
+import type { UserRepository } from '../../../domains/users/repository/user.repository';
 import { LoginDto } from '../../dto/login.dto';
 import { InvalidCredentialsError } from 'src/domains/users/errors/invalid-credentials.error';
-import { TokenPort } from '../../ports/token.port';
+import type { TokenPort } from '../../ports/token.port';
+import { Inject } from '@nestjs/common';
+import { PASSWORD_HASHER } from '../../ports/password-hasher.port';
+import type { PasswordHasherPort } from '../../ports/password-hasher.port';
 
 export class LoginUserUseCase {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly tokenPort: TokenPort
+    private readonly tokenPort: TokenPort,
+    @Inject(PASSWORD_HASHER) private readonly passwordHasher: PasswordHasherPort
   ) {}
 
   async execute(dto: LoginDto) {
@@ -17,25 +21,29 @@ export class LoginUserUseCase {
       throw new InvalidCredentialsError();
     }
 
-    // 2. Verify password (domain responsibility)
-    const passwordValid = user.password.compare(dto.password);
+    // 2. Verify password (bcrypt compare via port)
+    const passwordValid = await this.passwordHasher.compare(
+      dto.password,
+      user.getPasswordHash()
+    );
 
     if (!passwordValid) {
       throw new InvalidCredentialsError();
     }
 
+    const userId = user.getId();
     // 3. Generate tokens (infrastructure via port)
     const accessToken = this.tokenPort.generateAccessToken({
-      userId: user.id.value,
+      userId: userId,
     });
 
     const refreshToken = this.tokenPort.generateRefreshToken({
-      userId: user.id.value,
+      userId: userId,
     });
 
     // 4. Return result
     return {
-      userId: user.id.value,
+      userId: userId,
       accessToken,
       refreshToken,
     };

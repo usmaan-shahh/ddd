@@ -1,5 +1,6 @@
+export const PASSWORD_HASHER = Symbol('PasswordHasherPort');
+
 export interface PasswordHasherPort {
-    hash(plain: string): Promise<string>;
-    compare(plain: string, hash: string): Promise<boolean>;
-  }
-  
+  hash(plain: string): Promise<string>;
+  compare(plain: string, hash: string): Promise<boolean>;
+}
