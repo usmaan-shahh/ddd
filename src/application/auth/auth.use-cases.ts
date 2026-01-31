@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import type { UserRepository } from '../../domains/users/repository/user.repository';
+import { USER_REPOSITORY, type UserRepository } from '../../domains/users/repository/user.repository';
 import { User } from '../../domains/users/entity/user.entity';
 import { Email, Password } from '../../domains/users/value-objects';
 import { EmailAlreadyExistsError, InvalidCredentialsError } from '../../domains/users/errors';
@@ -8,7 +8,7 @@ import { PASSWORD_HASHER, TOKEN_PORT, type PasswordHasherPort, type TokenPort } 
 
 export class RegisterUserUseCase {
   constructor(
-    private readonly userRepository: UserRepository,
+    @Inject(USER_REPOSITORY) private readonly userRepository: UserRepository,
     @Inject(PASSWORD_HASHER) private readonly passwordHasher: PasswordHasherPort,
   ) {}
 
@@ -28,7 +28,7 @@ export class RegisterUserUseCase {
 
 export class LoginUserUseCase {
   constructor(
-    private readonly userRepository: UserRepository,
+    @Inject(USER_REPOSITORY) private readonly userRepository: UserRepository,
     @Inject(PASSWORD_HASHER) private readonly passwordHasher: PasswordHasherPort,
     @Inject(TOKEN_PORT) private readonly tokenPort: TokenPort,
   ) {}
