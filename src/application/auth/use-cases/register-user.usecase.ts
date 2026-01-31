@@ -1,4 +1,5 @@
 import type { UserRepository } from '../../../domains/users/repository/user.repository';
+import { USER_REPOSITORY } from '../../../domains/users/repository/user.repository';
 import { RegisterDto } from '../../dto/register.dto';
 import { User } from '../../../domains/users/entity/user.entity';
 import { EmailAlreadyExistsError } from '../../../domains/users/errors/email-already-exists.error';
@@ -11,7 +12,7 @@ import type { PasswordHasherPort } from '../../ports/password-hasher.port';
 export class RegisterUserUseCase {
 
   constructor(
-    private readonly userRepository: UserRepository,
+    @Inject(USER_REPOSITORY) private readonly userRepository: UserRepository,
     @Inject(PASSWORD_HASHER) private readonly passwordHasher: PasswordHasherPort
   ) {}
 

@@ -1,15 +1,17 @@
 import type { UserRepository } from '../../../domains/users/repository/user.repository';
+import { USER_REPOSITORY } from '../../../domains/users/repository/user.repository';
 import { LoginDto } from '../../dto/login.dto';
 import { InvalidCredentialsError } from 'src/domains/users/errors/invalid-credentials.error';
 import type { TokenPort } from '../../ports/token.port';
+import { TOKEN } from '../../ports/token.port';
 import { Inject } from '@nestjs/common';
 import { PASSWORD_HASHER } from '../../ports/password-hasher.port';
 import type { PasswordHasherPort } from '../../ports/password-hasher.port';
 
 export class LoginUserUseCase {
   constructor(
-    private readonly userRepository: UserRepository,
-    private readonly tokenPort: TokenPort,
+    @Inject(USER_REPOSITORY) private readonly userRepository: UserRepository,
+    @Inject(TOKEN) private readonly tokenPort: TokenPort,
     @Inject(PASSWORD_HASHER) private readonly passwordHasher: PasswordHasherPort
   ) {}
 
